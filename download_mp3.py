@@ -12,19 +12,19 @@ page4 = page1 + 'page/4/'
 
 path = '/html/body/div[2]/div/div[1]/div[]/div/div[3]/h2/a[2]'
 
-song_names = []
+songNames = []
 
 
 def create_list(url):
     a = requests.get(url)
     instance = lxml.html.fromstring(a.content)
     for i in range(2, 12):
-        song_names.append(instance.xpath(path.replace('[]', f'[{i}]'))[0].values()[2])
+        songNames.append(instance.xpath(path.replace('[]', f'[{i}]'))[0].values()[2])
 
 
 def songlist_print():
-    for i in range(len(song_names)):
-        print(i + 1, ') ', song_names[i])
+    for index, name in enumerate(songNames):
+        print(index + 1, ') ', name)
 
 
 def download(title):
@@ -34,11 +34,9 @@ def download(title):
 
 
 if __name__ == '__main__':
-    create_list(page1)
-    create_list(page2)
-    create_list(page3)
-    create_list(page4)
-    for i in song_names:
+    for url in [page1, page2, page3, page4]:
+        create_list(url)
+    for i in songNames:
         download(i)
         print(i, ' has been downloaded.')
     songlist_print()
